@@ -296,20 +296,3 @@ ROUGEL: 0.294
 
 ---
 
-## 🤝 Contributing
-
-1. Fork repository
-2. Create branch
-3. Submit pull request
-
----
-
-## 👨‍💻 Author
-
-Built for experimentation with Retrieval-Augmented Generation pipelines.
-
----
-
-## 📜 License
-
-MIT License — free to use and modify.
