@@ -6,7 +6,7 @@ This project implements a **Retrieval-Augmented Generation (RAG)** system that r
 
 It demonstrates a complete pipeline including:
 
-* Knowledge ingestion
+* Wikipedia Knowledge ingestion
 * Hybrid retrieval (BM25 + embeddings)
 * LLM summarization
 * FastAPI backend
@@ -281,18 +281,4 @@ ROUGE2: 0.231
 ROUGEL: 0.294
 ```
 
----
-
-## 🔮 Future Improvements
-
-* Add vector database (FAISS / Pinecone / pgvector)
-* Reranking models
-* Query caching
-* Streaming responses
-* Experiment tracking dashboards
-* Docker deployment
-* Monitoring and logging
-* Multi-document QA
-
----
 
