@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Water Tank Problem</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 30px;
+    }
+
+    input {
+      width: 400px;
+      padding: 8px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 8px 16px;
+      margin-left: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    #chart {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      height: 300px;
+      margin-top: 30px;
+      gap: 4px;
+    }
+
+    .bar {
+      width: 30px;
+      position: relative;
+      background: #555;
+    }
+
+    .water {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      background: rgba(0, 150, 255, 0.6);
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2>Water Tank Problem</h2>
+
+<input id="input" value="0,4,0,0,0,6,0,6,4,0">
+<button onclick="solve()">Calculate</button>
+
+<div id="chart"></div>
+<div id="result"></div>
+
+<script>
+function trapWater(height) {
+  let n = height.length;
+  let leftMax = Array(n).fill(0);
+  let rightMax = Array(n).fill(0);
+
+  leftMax[0] = height[0];
+  for (let i = 1; i < n; i++) {
+    leftMax[i] = Math.max(leftMax[i-1], height[i]);
+  }
+
+  rightMax[n-1] = height[n-1];
+  for (let i = n-2; i >= 0; i--) {
+    rightMax[i] = Math.max(rightMax[i+1], height[i]);
+  }
+
+  let water = 0;
+  let waterLevels = [];
+
+  for (let i = 0; i < n; i++) {
+    let w = Math.max(0, Math.min(leftMax[i], rightMax[i]) - height[i]);
+    water += w;
+    waterLevels.push(w);
+  }
+
+  return { water, waterLevels };
+}
+
+function drawChart(height, waterLevels) {
+  const chart = document.getElementById("chart");
+  chart.innerHTML = "";
+
+  for (let i = 0; i < height.length; i++) {
+    const bar = document.createElement("div");
+    bar.className = "bar";
+    bar.style.height = (height[i] * 20) + "px";
+
+    const water = document.createElement("div");
+    water.className = "water";
+    water.style.height = (waterLevels[i] * 20) + "px";
+
+    bar.appendChild(water);
+    chart.appendChild(bar);
+  }
+}
+
+function solve() {
+  let arr = document.getElementById("input").value
+    .split(",")
+    .map(Number);
+
+  const { water, waterLevels } = trapWater(arr);
+
+  drawChart(arr, waterLevels);
+
+  document.getElementById("result").innerText =
+    "Total Water Stored: " + water + " Units";
+}
+
+// run default
+solve();
+</script>
+
+</body>
+</html>

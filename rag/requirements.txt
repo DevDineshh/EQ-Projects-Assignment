@@ -1,0 +1,10 @@
+streamlit
+fastapi
+uvicorn
+requests
+python-dotenv
+rank-bm25
+faiss-cpu
+sentence-transformers
+groq 
+rouge-score
