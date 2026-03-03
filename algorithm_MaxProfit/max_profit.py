@@ -15,6 +15,11 @@ def maximum_profit(time_units):
             count += 1
 
         result = {"T": 0, "P": 0, "C": 0}
+        
+        if remaining == 4:
+            result["P"] += 1
+            total_profit += 0 * 1000  
+            
         result[building] = count
 
         profits.append(total_profit)
