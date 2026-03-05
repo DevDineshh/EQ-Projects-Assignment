@@ -4,42 +4,47 @@ def maximum_profit(time_units):
     profits = []
     results = []
 
-    for build_time, (building, earning) in price.items():
-        remaining = time_units
-        total_profit = 0
-        count = 0
+    max_counts = {bt: time_units // bt for bt in price}
 
-        while remaining >= build_time:
-            remaining -= build_time
-            total_profit += remaining * earning
-            count += 1
-
-        result = {"T": 0, "P": 0, "C": 0}
-        
-        if remaining == 4:
-            result["P"] += 1
-            total_profit += 0 * 1000  
-            
-        result[building] = count
-
-        profits.append(total_profit)
-        results.append(result)
+    for t_count in range(max_counts[5] + 1):
+        for p_count in range(max_counts[4] + 1):
+            for c_count in range(max_counts[10] + 1):
+                if t_count == p_count == c_count == 0:
+                    continue
+                build_list = [5] * t_count + [10] * c_count + [4] * p_count
+                build_list.sort(key=lambda bt: -price[bt][1])
+                if sum(build_list) > time_units:
+                    continue
+                total_profit = 0
+                time_used = 0
+                valid = True
+                for bt in build_list:
+                    time_used += bt
+                    remaining = max(0, time_units - time_used)
+                    # if remaining <= 0:
+                    #     valid = False  # Last building earns nothing — skip
+                    #     break
+                    total_profit += price[bt][1] * remaining
+                if not valid:
+                    continue
+                profits.append(total_profit)
+                results.append({"T": t_count, "P": p_count, "C": c_count})
 
     return profits, results
 
 
-test_case_inputs = [7, 8, 13]
+test_case_inputs = [7, 8, 13,49]
 for t in test_case_inputs:
     print(f"\n===== Time Unit: {t} =====")
-
     profits, solutions = maximum_profit(t)
     best = max(profits)
-
-    print("Earnings: $", best)
-    print("Solution:")
-
+    print(f"Earnings: ${best:,}")
+    print("Solutions:")
     idx = 1
+    seen = []
     for p, sol in zip(profits, solutions):
-        if p == best:
-            print(f"{idx}. T:{sol['T']} P:{sol['P']} C:{sol['C']}")
+        if p == best and sol not in seen:
+            print(f"  {idx}. T:{sol['T']} P:{sol['P']} C:{sol['C']}")
+            seen.append(sol)
             idx += 1
+
