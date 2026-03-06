@@ -11,8 +11,8 @@ def maximum_profit(time_units):
             for c_count in range(max_counts[10] + 1):
                 if t_count == p_count == c_count == 0:
                     continue
-                build_list = [5] * t_count + [10] * c_count + [4] * p_count
-                build_list.sort(key=lambda bt: -price[bt][1])
+                build_list = [5] * t_count + [4] * p_count + [10] * c_count  
+    
                 if sum(build_list) > time_units:
                     continue
                 total_profit = 0
@@ -20,10 +20,10 @@ def maximum_profit(time_units):
                 valid = True
                 for bt in build_list:
                     time_used += bt
-                    remaining = max(0, time_units - time_used)
-                    # if remaining <= 0:
-                    #     valid = False  # Last building earns nothing — skip
-                    #     break
+                    remaining = time_units - time_used
+                    if remaining <= 0:
+                        valid = False  # Last building earns nothing — skip
+                        break
                     total_profit += price[bt][1] * remaining
                 if not valid:
                     continue
@@ -33,7 +33,7 @@ def maximum_profit(time_units):
     return profits, results
 
 
-test_case_inputs = [7, 8, 13,49]
+test_case_inputs = [7, 8, 13]
 for t in test_case_inputs:
     print(f"\n===== Time Unit: {t} =====")
     profits, solutions = maximum_profit(t)
